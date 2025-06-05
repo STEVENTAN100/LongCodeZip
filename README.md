@@ -68,10 +68,10 @@ cd repo-qa
 bash run.sh
 ```
 
-The script will evaluate LongCodeZip on the RepoQA dataset with compression ratios of 0.1, 0.2, 0.3, and 0.4, running experiments in parallel on multiple GPUs.
+The script will evaluate LongCodeZip on the RepoQA dataset with compression ratios, running experiments in parallel on multiple GPUs.
 
 **Key Parameters:**
-- `--compression-ratio`: Controls the compression level (0.1-0.4)
+- `--compression-ratio`: Controls the compression level
 - `--model`: Specifies the base LLM model
 - `--backend`: Backend for model inference (vllm)
 
@@ -87,9 +87,9 @@ bash run.sh
 This evaluates LongCodeZip on long-context code completion tasks with various configurations including different target token limits, fine-grained compression ratios, and importance beta values.
 
 **Key Parameters:**
-- `--code_compressor_target_token`: Target token budget (2048, 4096)
-- `--code_compressor_fine_ratio`: Fine-grained compression ratio (0.5, 0.8)
-- `--importance_beta`: Importance weighting parameter (0.0, 0.5)
+- `--code_compressor_target_token`: Target token budget
+- `--code_compressor_fine_ratio`: Fine-grained compression ratio
+- `--importance_beta`: Importance weighting parameter
 
 ### Code Summarization
 
