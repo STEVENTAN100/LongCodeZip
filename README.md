@@ -21,7 +21,7 @@ This repository contains implementations and experiments for three code-related 
 
 ```
 LongCodeZip/
-├── repoqa/                    # Code Retrieval Task
+├── repo-qa/                   # Code Retrieval Task
 │   ├── main.py               # Main evaluation script
 │   ├── run.sh                # Experiment runner
 │   ├── code_compressor.py    # Core compression implementation
@@ -33,7 +33,7 @@ LongCodeZip/
 │   ├── code_compressor.py    # Core compression implementation
 │   ├── utils.py              # Utility functions
 │   └── ...
-├── module_summarization/      # Code Summarization Task
+├── module-summarization/      # Code Summarization Task
 │   ├── main.py               # Main evaluation script
 │   ├── run.sh                # Experiment runner
 │   ├── code_compressor.py    # Core compression implementation
@@ -61,10 +61,10 @@ bash run.sh
 
 ### Code Retrieval (RepoQA)
 
-Navigate to the `repoqa` directory and run experiments with different compression ratios:
+Navigate to the `repo-qa` directory and run experiments with different compression ratios:
 
 ```bash
-cd repoqa
+cd repo-qa
 bash run.sh
 ```
 
@@ -93,10 +93,10 @@ This evaluates LongCodeZip on long-context code completion tasks with various co
 
 ### Code Summarization
 
-Navigate to the `module_summarization` directory:
+Navigate to the `module-summarization` directory:
 
 ```bash
-cd module_summarization
+cd module-summarization
 bash run.sh
 ```
 
