@@ -2,6 +2,7 @@
 
 This repository is the official implementation of LongCodeZip, a novel two-stage long code compression method.
 
+Our paper "LongCodeZip: Compress Long Context for Code Language Models" has been accepted to **ASE 2025**.
 
 ## Method Overview
 
@@ -120,6 +121,16 @@ Each task can be customized by modifying the respective `run.sh` file or by dire
 
 LongCodeZip achieves up to **5.6× compression ratio** without sacrificing task performance across code completion, summarization, and retrieval tasks. And even when using a 0.5B Qwen model as the compressor, it can also achieve competitive performance.
 
-## Contact
+## Citation
 
-Please feel free to contact us if you have any questions.
+If you find this work useful, please cite:
+
+```bibtex
+@article{shi2025longcodezip,
+  title={LongCodeZip: Compress Long Context for Code Language Models},
+  author={Shi, Yuling and Qian, Yichun and Zhang, Hongyu and Shen, Beijun and Gu, Xiaodong},
+  journal={arXiv preprint arXiv:2510.00446},
+  year={2025},
+  doi={10.48550/arXiv.2510.00446}
+}
+```
