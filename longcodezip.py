@@ -1810,18 +1810,35 @@ class CodeCompressor:
         return selected
 
 if __name__ == "__main__":
-    # Load real examples from the dataset
-    # with open("exp-cur50lines-bg5000tokens/results/deepseek-coder-6.7b-instruct/method_code_compressor_t2048_rankonly/deepseek-ai_slash_deepseek-coder-6.7b-instruct.jsonl", "r") as f:
-    with open("exp-cur50lines-bg5000tokens-500examples/results/mistral-7b-instruct/method_code_compressor_t512_rankonly/mistralai_slash_Mistral-7B-Instruct-v0.3.jsonl", "r") as f:
-        data = [json.loads(line) for line in f]
-    
-    example = data[190]
-    # print(example.keys()) # dict_keys(['id', 'gt', 'original_background_context', 'original_current_function_context', 'language', 'prompt', 'output', 'es', 'em'])
 
-    context = example["original_background_context"]
-    question = example["original_current_function_context"]
-    ground_truth = example["gt"]
+    context = """
+    def add(a, b):
+        return a + b
 
+    def quick_sort(arr):
+        if len(arr) <= 1:
+            return arr
+        pivot = arr[len(arr) // 2]
+        left = [x for x in arr if x < pivot]
+        middle = [x for x in arr if x == pivot]
+        right = [x for x in arr if x > pivot]
+        return quick_sort(left) + middle + quick_sort(right)
+
+    def search_with_binary_search(arr, target):
+        left, right = 0, len(arr) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            if arr[mid] == target:
+                return mid
+            elif arr[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return -1
+    """
+
+    question = "How to write a quick sort algorithm?"
+   
     # Initialize compressor
     logger.info("Initializing compressor...")
     model_name = "Qwen/Qwen2.5-Coder-7B-Instruct"
@@ -1831,7 +1848,7 @@ if __name__ == "__main__":
     logger.info("\nTesting function-based code file compression with query...")
 
     original_tokens = len(compressor.tokenizer.encode(context))
-    target_token = 512
+    target_token = 64
     target_ratio = min(1.0, max(0.0, target_token / original_tokens))
     logger.info(f"CodeCompressor: Original tokens={original_tokens}, Target tokens={target_token}, Calculated ratio={target_ratio:.4f}")
 
@@ -1853,25 +1870,19 @@ if __name__ == "__main__":
     # final prompt
     final_prompt = result['compressed_prompt']
     # get the completion
-    try:
-        tokenized_prompt = compressor.tokenizer(final_prompt, return_tensors="pt").to(compressor.device)
-        # Increase max_new_tokens for potentially longer completions
-        completion_ids = compressor.model.generate(**tokenized_prompt, max_new_tokens=128, pad_token_id=compressor.tokenizer.eos_token_id)
-        # Decode only the generated part, skipping special tokens
-        completion = compressor.tokenizer.decode(completion_ids[0][len(tokenized_prompt.input_ids[0]):], skip_special_tokens=True)
+    tokenized_prompt = compressor.tokenizer(final_prompt, return_tensors="pt").to(compressor.device)
+    # Increase max_new_tokens for potentially longer completions
+    completion_ids = compressor.model.generate(**tokenized_prompt, max_new_tokens=128, pad_token_id=compressor.tokenizer.eos_token_id)
+    # Decode only the generated part, skipping special tokens
+    completion = compressor.tokenizer.decode(completion_ids[0][len(tokenized_prompt.input_ids[0]):], skip_special_tokens=True)
 
-        # Basic cleanup: remove leading/trailing whitespace and potentially stop words if needed
-        completion = completion.strip()
-        # More robust cleanup: Find the first meaningful line if generation includes noise
-        completion_lines = [line for line in completion.split("\n") if line.strip() and not line.strip().startswith(("#", "//"))] # Simple comment removal
-        cleaned_completion = completion_lines[0] if completion_lines else completion # Take first non-comment line or original if none found
-
-    except Exception as e:
-        logger.error(f"Error during generation or decoding: {e}")
-        cleaned_completion = "[ERROR DURING GENERATION]"
+    # Basic cleanup: remove leading/trailing whitespace and potentially stop words if needed
+    completion = completion.strip()
+    # More robust cleanup: Find the first meaningful line if generation includes noise
+    completion_lines = [line for line in completion.split("\n") if line.strip() and not line.strip().startswith(("#", "//"))] # Simple comment removal
+    cleaned_completion = completion_lines[0] if completion_lines else completion # Take first non-comment line or original if none found
 
     logger.info(f"Cleaned Completion: {cleaned_completion}")
-    logger.info(f"Ground truth: {ground_truth}")
 
     # Optional: Test with conditional_ppl method
     logger.info("\nTesting fine-grained compression with conditional_ppl...")

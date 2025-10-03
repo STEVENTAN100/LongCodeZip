@@ -49,6 +49,51 @@ LongCodeZip/
 pip install -r requirements.txt
 ```
 
+## Quick Demo
+
+We provide a simple demo (`demo.py`) to help you get started with LongCodeZip:
+
+```bash
+python demo.py
+```
+
+This demo showcases the core compression functionality by compressing a simple code snippet containing multiple functions (add, quick_sort, search_with_binary_search) based on a query about quick sort. The compressor will:
+1. Rank functions by relevance to the query
+2. Apply fine-grained compression to maximize information density
+3. Generate a compressed prompt suitable for code LLMs
+
+**Example output:**
+```python
+# Original: ~150 tokens
+# Compressed: ~64 tokens (target)
+# Selected: quick_sort function (most relevant to query)
+```
+
+## Core API Usage
+
+LongCodeZip provides a simple and powerful API for compressing long code contexts. Here's how to use it:
+
+### Basic Example
+
+```python
+from longcodezip import CodeCompressor
+
+# Initialize the compressor
+compressor = CodeCompressor(model_name="Qwen/Qwen2.5-Coder-7B-Instruct")
+
+# Compress code with a query
+result = compressor.compress_code_file(
+    code=your_code_string,
+    query="What does this function do?",
+    instruction="Answer the question based on the code.",
+    rate=0.5,  # Keep 50% of tokens
+)
+
+# Access compressed results
+compressed_code = result['compressed_code']
+compressed_prompt = result['compressed_prompt']  # Full prompt with instruction
+compression_ratio = result['compression_ratio']
+```
 ## Usage
 
 ### Quick Start

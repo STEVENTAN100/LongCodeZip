@@ -10,7 +10,6 @@ from tqdm import tqdm
 import copy
 import bisect
 import json
-from llmlingua import PromptCompressor
 from loguru import logger
 
 class EntropyChunking:

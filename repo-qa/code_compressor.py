@@ -11,7 +11,6 @@ import logging
 import copy
 import bisect
 import json
-from llmlingua import PromptCompressor
 
 # set up the logger
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
