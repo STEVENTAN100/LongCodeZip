@@ -676,8 +676,6 @@ class CodeCompressor:
         rate: float = 0.5,
         target_token: float = -1,
         language: str = "python",
-        use_iterative_compression: bool = True,
-        iterative_size: int = 200,
         dynamic_compression_ratio: float = 0.2,
         context_budget: str = "+100",
         rank_only: bool = False,
@@ -698,8 +696,6 @@ class CodeCompressor:
             rate: Compression rate for coarse-grained (function level) compression (0.0-1.0)
             target_token: Target number of tokens (alternative to rate)
             language: Programming language of the code
-            use_iterative_compression: Whether to use iterative compression
-            iterative_size: Size of each iteration for iterative compression
             dynamic_compression_ratio: Ratio for dynamic compression
             context_budget: String expression to modify token budget
             rank_only: If True, just rank and select contexts without fine-grained compression
@@ -1857,9 +1853,9 @@ if __name__ == "__main__":
         query=question, # Using current function context as query focus
         instruction="Complete the following code function given the context.",
         rate=target_ratio,
-        rank_only=False, # Test fine-grained compression
-        fine_grained_importance_method="contrastive_perplexity", # Explicitly test default
-        min_lines_for_fine_grained=5, # New parameter
+        rank_only=True, # Only use coarse-grained compression
+        fine_grained_importance_method="conditional_ppl", # Explicitly test default
+        min_lines_for_fine_grained=5, # Min number of lines for fine-grained compression
         importance_beta=0.5, # Sensitivity to importance score
         use_knapsack=True,
     )

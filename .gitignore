@@ -165,7 +165,6 @@ crosscodeeval/
 temp/
 *.jsonl
 *.out
-*.txt
 datasets/
 repositories/
 *.ipynb
