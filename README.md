@@ -1,15 +1,7 @@
 <div align="center">
   <img src="assets/logo.png" alt="LongCodeZip Logo" width="200"/>
 
-[![arXiv](https://img.shields.io/badge/arXiv-2510.00446-b31b1b.svg)](https://arxiv.org/abs/2510.00446)
-
-[![Accepted: ASE 2025](https://img.shields.io/badge/Accepted-ASE%202025-brightgreen.svg)](https://conf.researchr.org/home/ase-2025)
-
-[![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
-
-[![GitHub stars](https://img.shields.io/github/stars/YerbaPage/LongCodeZip?style=social)](https://github.com/YerbaPage/LongCodeZip)
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![arXiv](https://img.shields.io/badge/arXiv-2510.00446-b31b1b.svg)](https://arxiv.org/abs/2510.00446) [![Accepted: ASE 2025](https://img.shields.io/badge/Accepted-ASE%202025-brightgreen.svg)](https://conf.researchr.org/details/ase-2025/ase-2025-papers/121/LongCodeZip-Compress-Long-Context-for-Code-Language-Models) [![Python Version](https://img.shields.io/badge/Python-3.9.7-blue.svg)](https://www.python.org/downloads/release/python-397/) [![GitHub stars](https://img.shields.io/github/stars/YerbaPage/LongCodeZip?style=social)](https://github.com/YerbaPage/LongCodeZip) [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 </div>
 
