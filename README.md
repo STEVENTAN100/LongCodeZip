@@ -1,8 +1,10 @@
 # LongCodeZip
 
-This repository is the official implementation of LongCodeZip, a novel two-stage long code compression method.
+This repository is the official implementation of LongCodeZip, a novel two-stage long code compression method. Our paper "LongCodeZip: Compress Long Context for Code Language Models" has been accepted to **ASE 2025**.
 
-Our paper "LongCodeZip: Compress Long Context for Code Language Models" has been accepted to **ASE 2025**.
+<div align="center">
+  <img src="asset/logo.png" alt="LongCodeZip Logo" width="200"/>
+</div>
 
 ## Method Overview
 
