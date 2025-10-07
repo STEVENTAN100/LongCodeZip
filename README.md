@@ -1,5 +1,16 @@
 <div align="center">
   <img src="assets/logo.png" alt="LongCodeZip Logo" width="200"/>
+
+[![arXiv](https://img.shields.io/badge/arXiv-2510.00446-b31b1b.svg)](https://arxiv.org/abs/2510.00446)
+
+[![Accepted: ASE 2025](https://img.shields.io/badge/Accepted-ASE%202025-brightgreen.svg)](https://conf.researchr.org/home/ase-2025)
+
+[![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
+
+[![GitHub stars](https://img.shields.io/github/stars/YerbaPage/LongCodeZip?style=social)](https://github.com/YerbaPage/LongCodeZip)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 </div>
 
 # LongCodeZip
@@ -130,54 +141,4 @@ Navigate to the `long-code-completion` directory:
 ```bash
 cd long-code-completion
 bash run.sh
-```
-
-This evaluates LongCodeZip on long-context code completion tasks with various configurations including different target token limits, fine-grained compression ratios, and importance beta values.
-
-**Key Parameters:**
-- `--code_compressor_target_token`: Target token budget
-- `--code_compressor_fine_ratio`: Fine-grained compression ratio
-- `--importance_beta`: Importance weighting parameter
-
-### Code Summarization
-
-Navigate to the `module-summarization` directory:
-
-```bash
-cd module-summarization
-bash run.sh
-```
-
-This runs code summarization experiments with fine-grained compression and various beta values for importance weighting.
-
-**Key Parameters:**
-- `--code_compressor_target_token`: Target token budget
-- `--code_compressor_fine_ratio`: Fine-grained compression ratio
-- `--importance_beta`: Importance weighting parameter
-
-## Configuration
-
-Each task can be customized by modifying the respective `run.sh` file or by directly calling the main scripts with custom parameters. Key configuration options include:
-
-- **Model Selection**: Compatible with various code LLMs (default: Qwen2.5-Coder-7B-Instruct)
-- **Compression Ratios**: Adjustable compression levels for different use cases
-- **Token Budgets**: Configurable target token limits
-- **GPU Configuration**: Multi-GPU support for parallel experiments
-
-## Performance
-
-LongCodeZip achieves up to **5.6× compression ratio** without sacrificing task performance across code completion, summarization, and retrieval tasks. And even when using a 0.5B Qwen model as the compressor, it can also achieve competitive performance.
-
-## Citation
-
-If you find this work useful, please cite:
-
-```bibtex
-@article{shi2025longcodezip,
-  title={LongCodeZip: Compress Long Context for Code Language Models},
-  author={Shi, Yuling and Qian, Yichun and Zhang, Hongyu and Shen, Beijun and Gu, Xiaodong},
-  journal={arXiv preprint arXiv:2510.00446},
-  year={2025},
-  doi={10.48550/arXiv.2510.00446}
-}
 ```
