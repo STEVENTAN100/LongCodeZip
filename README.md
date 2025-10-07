@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="asset/logo.png" alt="LongCodeZip Logo" width="200"/>
+  <img src="asset/logo.jpg" alt="LongCodeZip Logo" width="200"/>
 </div>
 
 # LongCodeZip
