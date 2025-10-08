@@ -134,3 +134,14 @@ Navigate to the `long-code-completion` directory:
 cd long-code-completion
 bash run.sh
 ```
+
+## References
+
+```bibtex
+@article{shi2025longcodezip,
+  title={LongCodeZip: Compress Long Context for Code Language Models},
+  author={Shi, Yuling and Qian, Yichun and Zhang, Hongyu and Shen, Beijun and Gu, Xiaodong},
+  journal={arXiv preprint arXiv:2510.00446},
+  year={2025}
+}
+```
