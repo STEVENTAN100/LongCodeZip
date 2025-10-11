@@ -39,11 +39,13 @@ pip install -e .
 
 ## Quick Demo
 
-We provide a simple demo (`demo.py`) to help you get started with LongCodeZip:
+We provide a simple demo (`demo.py`) to help you get started with LongCodeZip. 
 
 ```bash
 python demo.py
 ```
+
+The demo showcases both compression modes: coarse-grained compression (function-level selection only) and the full two-stage compression (with fine-grained token optimization). It demonstrates how LongCodeZip compresses a code file based on a given query and achieves different compression ratios.
 
 ## Basic Example
 
