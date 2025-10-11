@@ -1,11 +1,7 @@
-anthropic
 appdirs
 datasets
 editdistance
 fire
-google-api-core
-google-generativeai
-llmlingua
 loguru
 matplotlib
 nltk
@@ -13,9 +9,8 @@ numpy
 openai>=1.0.0
 rich
 torch
-transformers==4.37.1
+transformers
 tqdm
 tree-sitter-languages
 tempdir
-vllm
 wget

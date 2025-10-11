@@ -1,4 +1,4 @@
-from longcodezip import CodeCompressor
+from longcodezip import LongCodeZip
 from loguru import logger
 
 if __name__ == "__main__":
@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # Initialize compressor
     logger.info("Initializing compressor...")
     model_name = "Qwen/Qwen2.5-Coder-7B-Instruct"
-    compressor = CodeCompressor(model_name=model_name)
+    compressor = LongCodeZip(model_name=model_name)
     
     # Test function-based code file compression with query
     logger.info("\nTesting function-based code file compression with query...")
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     original_tokens = len(compressor.tokenizer.encode(context))
     target_token = 64
     target_ratio = min(1.0, max(0.0, target_token / original_tokens))
-    logger.info(f"CodeCompressor: Original tokens={original_tokens}, Target tokens={target_token}, Calculated ratio={target_ratio:.4f}")
+    logger.info(f"LongCodeZip: Original tokens={original_tokens}, Target tokens={target_token}, Calculated ratio={target_ratio:.4f}")
 
     logger.info("\nTesting compression with Coarse-grained compression only...")
     result_cond = compressor.compress_code_file(
@@ -35,6 +35,7 @@ if __name__ == "__main__":
         rank_only=True # Coarse-grained compression
     )
     logger.info(f"Compressed prompt: \n{result_cond['compressed_prompt']}")
+    logger.info(f"Compression ratio: {result_cond['compression_ratio']:.4f}") # Compression ratio: 0.3856
 
     logger.info("\nTesting compression with Coarse-grained and Fine-grained compression...")
     result_cond = compressor.compress_code_file(
@@ -45,3 +46,4 @@ if __name__ == "__main__":
         rank_only=False # Corase-grained and Fine-grained compression
     )
     logger.info(f"Compressed prompt: \n{result_cond['compressed_prompt']}")
+    logger.info(f"Compression ratio: {result_cond['compression_ratio']:.4f}") # Compression ratio: 0.1468
