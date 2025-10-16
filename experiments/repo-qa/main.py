@@ -1,9 +1,8 @@
-from repoqa.code_compressor import CodeCompressor
-from repoqa.mgcode_compressor import CodeCompressor as MGCodeCompressor
-from repoqa.utility import COMMENT_QUERY, progress
-from repoqa.data import CACHE_DIR, get_repoqa_data
-from repoqa.compute_score import compute_score, save_json
-from llmlingua import PromptCompressor
+from code_compressor import CodeCompressor
+from utility import COMMENT_QUERY, progress
+from data import CACHE_DIR, get_repoqa_data
+from compute_score import compute_score, save_json
+# from llmlingua import PromptCompressor
 from loguru import logger
 from tree_sitter_languages import get_language, get_parser
 import torch
@@ -208,90 +207,90 @@ def compress_context(code_context: str,
     return compressed_context
 
 
-def compress_context_llm_lingua(compressor: PromptCompressor,
-                                code_context: str,
-                                target_function: str,
-                                language: str,
-                                target_token: int = 1000) -> str:
-    """Compress code context using LLMLingua approach"""
-    # Get original token count using LLMLingua's tokenizer
-    original_tokens = len(compressor.tokenizer.encode(code_context))
+# def compress_context_llm_lingua(compressor: PromptCompressor,
+#                                 code_context: str,
+#                                 target_function: str,
+#                                 language: str,
+#                                 target_token: int = 1000) -> str:
+#     """Compress code context using LLMLingua approach"""
+#     # Get original token count using LLMLingua's tokenizer
+#     original_tokens = len(compressor.tokenizer.encode(code_context))
 
-    # replace the "<|endoftext|>" in the code if there is any
-    if "<|endoftext|>" in code_context:
-        logger.warning(f"Removing <|endoftext|> in code context: {code_context}")
-        code_context = code_context.replace("<|endoftext|>", "")
+#     # replace the "<|endoftext|>" in the code if there is any
+#     if "<|endoftext|>" in code_context:
+#         logger.warning(f"Removing <|endoftext|> in code context: {code_context}")
+#         code_context = code_context.replace("<|endoftext|>", "")
 
-    # Compress the prompt
-    logger.info(f"Compressing prompt with instruction: \n{INSTRUCTION}")
-    logger.info(f"Code context: \n{code_context}")
-    logger.info(f"Description: \n{target_function}")
-    compressed = compressor.compress_prompt(
-        code_context,
-        instruction=INSTRUCTION,
-        question=target_function + INSTRUCTION,
-        target_token=target_token
-    )
+#     # Compress the prompt
+#     logger.info(f"Compressing prompt with instruction: \n{INSTRUCTION}")
+#     logger.info(f"Code context: \n{code_context}")
+#     logger.info(f"Description: \n{target_function}")
+#     compressed = compressor.compress_prompt(
+#         code_context,
+#         instruction=INSTRUCTION,
+#         question=target_function + INSTRUCTION,
+#         target_token=target_token
+#     )
 
-    compressed_prompt = compressed['compressed_prompt']
-    logger.info(f"Compressed prompt: \n{compressed_prompt}")
+#     compressed_prompt = compressed['compressed_prompt']
+#     logger.info(f"Compressed prompt: \n{compressed_prompt}")
 
-    # Get compressed token count
-    compressed_tokens = len(compressor.tokenizer.encode(compressed_prompt))
+#     # Get compressed token count
+#     compressed_tokens = len(compressor.tokenizer.encode(compressed_prompt))
 
-    # Log compression results
-    logger.info(f"Original token count: {original_tokens}")
-    logger.info(f"LLMLingua compressed token count: {compressed_tokens}")
-    logger.info(f"Token compression ratio: {compressed_tokens/original_tokens:.2%}")
+#     # Log compression results
+#     logger.info(f"Original token count: {original_tokens}")
+#     logger.info(f"LLMLingua compressed token count: {compressed_tokens}")
+#     logger.info(f"Token compression ratio: {compressed_tokens/original_tokens:.2%}")
 
-    return compressed_prompt
+#     return compressed_prompt
 
 
-def compress_context_longllmlingua_chunks(compressor: PromptCompressor,
-                                          code_context: str,
-                                          target_function: str,
-                                          language: str,
-                                          target_token: int = 1000,
-                                          chunk_size: int = 80,
-                                          overlap: int = 40) -> str:
-    """Compress code context using LongLLMLingua chunks approach"""
-    # Get original token count using LLMLingua's tokenizer
-    original_tokens = len(compressor.tokenizer.encode(code_context))
+# def compress_context_longllmlingua_chunks(compressor: PromptCompressor,
+#                                           code_context: str,
+#                                           target_function: str,
+#                                           language: str,
+#                                           target_token: int = 1000,
+#                                           chunk_size: int = 80,
+#                                           overlap: int = 40) -> str:
+#     """Compress code context using LongLLMLingua chunks approach"""
+#     # Get original token count using LLMLingua's tokenizer
+#     original_tokens = len(compressor.tokenizer.encode(code_context))
 
-    # replace the "<|endoftext|>" in the code if there is any
-    if "<|endoftext|>" in code_context:
-        logger.warning(f"Removing <|endoftext|> in code context: {code_context}")
-        code_context = code_context.replace("<|endoftext|>", "")
+#     # replace the "<|endoftext|>" in the code if there is any
+#     if "<|endoftext|>" in code_context:
+#         logger.warning(f"Removing <|endoftext|> in code context: {code_context}")
+#         code_context = code_context.replace("<|endoftext|>", "")
 
-    # Split code into chunks for longllmlingua_chunks method
-    lines = code_context.split('\n')
-    chunks = []
-    for i in range(0, len(lines), chunk_size - overlap):
-        chunk = lines[i:i + chunk_size]
-        if chunk:
-            chunks.append('\n'.join(chunk))
+#     # Split code into chunks for longllmlingua_chunks method
+#     lines = code_context.split('\n')
+#     chunks = []
+#     for i in range(0, len(lines), chunk_size - overlap):
+#         chunk = lines[i:i + chunk_size]
+#         if chunk:
+#             chunks.append('\n'.join(chunk))
 
-    # Compress the prompt using chunks
-    compressed = compressor.compress_prompt(
-        chunks,
-        instruction=INSTRUCTION,
-        question=target_function + INSTRUCTION,
-        target_token=target_token,
-        rank_method="longllmlingua"
-    )
+#     # Compress the prompt using chunks
+#     compressed = compressor.compress_prompt(
+#         chunks,
+#         instruction=INSTRUCTION,
+#         question=target_function + INSTRUCTION,
+#         target_token=target_token,
+#         rank_method="longllmlingua"
+#     )
 
-    compressed_prompt = compressed['compressed_prompt']
-    logger.info(f"Compressed prompt: \n{compressed_prompt}")
+#     compressed_prompt = compressed['compressed_prompt']
+#     logger.info(f"Compressed prompt: \n{compressed_prompt}")
 
-    # Get compressed token count
-    compressed_tokens = len(compressor.tokenizer.encode(compressed_prompt))
+#     # Get compressed token count
+#     compressed_tokens = len(compressor.tokenizer.encode(compressed_prompt))
 
-    # Log compression results
-    logger.info(f"Original token count: {original_tokens}")
-    logger.info(f"LongLLMLingua chunks compressed token count: {compressed_tokens}")
-    logger.info(f"Token compression ratio: {compressed_tokens/original_tokens:.2%}")
+#     # Log compression results
+#     logger.info(f"Original token count: {original_tokens}")
+#     logger.info(f"LongLLMLingua chunks compressed token count: {compressed_tokens}")
+#     logger.info(f"Token compression ratio: {compressed_tokens/original_tokens:.2%}")
 
-    return compressed_prompt
+#     return compressed_prompt
 
 
 def compress_context_code_compressor(compressor: CodeCompressor,
@@ -396,43 +395,6 @@ def compress_context_code_compressor(compressor: CodeCompressor,
 
     return compressed_prompt
 
-
-def compress_context_mgcode_compressor(compressor: MGCodeCompressor,
-                                     code_context: str,
-                                     target_function: str,
-                                     language: str,
-                                     target_ratio: float = 0.5,
-                                     compression_mode: str = "balanced") -> str:
-    """Compress code context using MG CodeCompressor approach"""
-    # replace the "<|endoftext|>" in the code if there is any
-    if "<|endoftext|>" in code_context:
-        logger.warning(f"Removing <|endoftext|> in code context: {code_context}")
-        code_context = code_context.replace("<|endoftext|>", "")
-
-    # Compress the code using MG CodeCompressor
-    compressed = compressor.compress_code(
-        code=code_context,
-        query=target_function,
-        instruction=INSTRUCTION,
-        target_ratio=target_ratio,
-        compression_mode=compression_mode,
-        enable_fine_compression=True,
-        max_iterations=3,
-        preserve_top_functions=True,
-        language=language
-    )
-
-    compressed_prompt = compressed["compressed_prompt"]
-    # logger.info(f"Compressed prompt: \n{compressed_prompt}")
-
-    # Log compression results
-    logger.info(f"Original token count: {compressed['original_tokens']}")
-    logger.info(f"MG CodeCompressor compressed token count: {compressed['compressed_tokens']}")
-    logger.info(f"Token compression ratio: {compressed['compressed_tokens']/compressed['original_tokens']:.2%}")
-
-    return compressed_prompt
-
-
 def evaluate_model_rag(
     model: str,
     code_context_size: int = 16 * 1024,
@@ -511,9 +473,6 @@ def evaluate_model_rag(
         
         mode_str = "_".join(cc_mode) if cc_mode else "simple"
         strategy_str += f"_t{compression_ratio}_mode_{mode_str}"
-    elif compression_method == "mgcode_compressor":
-        strategy_str += f"_t{compression_ratio}_m{compression_mode}"
-
     if chunk_strategy == "sliding_window":
         strategy_str += f"_w{window_size}_o{overlap_size}"
 
@@ -532,8 +491,7 @@ def evaluate_model_rag(
     )
 
     # Load cache from Qwen results
-    cache_file = os.path.join("results/ntoken_16384", "Qwen_slash_Qwen2.5-7B-Instruct.jsonl")
-    # cache_file = os.path.join("results/ntoken_16384", "Qwen_slash_Qwen2.5-7B-Instruct-GPTQ-Int4.jsonl")
+    cache_file = os.path.join("data", "Qwen_slash_Qwen2.5-7B-Instruct.jsonl") # previous data from running original RepoQA
     if not os.path.exists(cache_file):
         raise FileNotFoundError(f"Cache file not found: {cache_file}")
 
@@ -596,14 +554,11 @@ def evaluate_model_rag(
     # Initialize compressors if needed
     llm_lingua_compressor = None
     code_compressor = None
-    mgcode_compressor = None
     if compression_method in ["llm_lingua", "longllmlingua_chunks"]:
-        llm_lingua_compressor = PromptCompressor(compression_model)
+        # llm_lingua_compressor = PromptCompressor(compression_model)
+        pass
     elif compression_method == "code_compressor":
         code_compressor = CodeCompressor(compression_model)
-    elif compression_method == "mgcode_compressor":
-        mgcode_compressor = MGCodeCompressor(compression_model)
-
     # Convert string strategy to enum
     try:
         chunk_strategy_enum = ChunkStrategy(chunk_strategy)
@@ -639,24 +594,24 @@ def evaluate_model_rag(
                         rag_compressor,
                         chunker=chunker
                     )
-                elif compression_method == "llm_lingua":
-                    compressed_context = compress_context_llm_lingua(
-                        compressor=llm_lingua_compressor,
-                        code_context=task["code_context"],
-                        target_function=task["description"],
-                        language=task["language"],
-                        target_token=llm_lingua_target_token
-                    )
-                elif compression_method == "longllmlingua_chunks":
-                    compressed_context = compress_context_longllmlingua_chunks(
-                        compressor=llm_lingua_compressor,
-                        code_context=task["code_context"],
-                        target_function=task["description"],
-                        language=task["language"],
-                        target_token=llm_lingua_target_token,
-                        chunk_size=window_size,
-                        overlap=overlap_size
-                    )
+                # elif compression_method == "llm_lingua":
+                #     compressed_context = compress_context_llm_lingua(
+                #         compressor=llm_lingua_compressor,
+                #         code_context=task["code_context"],
+                #         target_function=task["description"],
+                #         language=task["language"],
+                #         target_token=llm_lingua_target_token
+                #     )
+                # elif compression_method == "longllmlingua_chunks":
+                #     compressed_context = compress_context_longllmlingua_chunks(
+                #         compressor=llm_lingua_compressor,
+                #         code_context=task["code_context"],
+                #         target_function=task["description"],
+                #         language=task["language"],
+                #         target_token=llm_lingua_target_token,
+                #         chunk_size=window_size,
+                #         overlap=overlap_size
+                #     )
                 elif compression_method == "code_compressor":
                     compressed_context = compress_context_code_compressor(
                         compressor=code_compressor,
@@ -669,15 +624,6 @@ def evaluate_model_rag(
                         rank_only=rank_only,
                         use_iterative_compression=use_iterative_compression,
                         use_line_level_filter=use_line_level_filter
-                    )
-                elif compression_method == "mgcode_compressor":
-                    compressed_context = compress_context_mgcode_compressor(
-                        compressor=mgcode_compressor,
-                        code_context=task["code_context"],
-                        target_function=task["description"],
-                        language=task["language"],
-                        target_ratio=compression_ratio,
-                        compression_mode=compression_mode
                     )
                 elif compression_method == "original":
                     compressed_context = task["code_context"]
@@ -719,7 +665,6 @@ def evaluate_model_rag(
     del rag_compressor
     del llm_lingua_compressor
     del code_compressor
-    del mgcode_compressor
     
     # Force garbage collection to free GPU memory
     import gc
@@ -734,7 +679,7 @@ def evaluate_model_rag(
     logger.info("Starting response generation phase")
     
     # Initialize vLLM provider
-    from repoqa.provider.vllm import VllmProvider
+    from provider.vllm import VllmProvider
     engine = VllmProvider(
         model,
         tensor_parallel_size=tensor_parallel_size,

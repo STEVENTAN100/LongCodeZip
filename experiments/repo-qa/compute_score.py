@@ -19,9 +19,9 @@ from rich.table import Table
 from transformers import AutoConfig
 from tree_sitter_languages import get_language, get_parser
 
-from repoqa.data import get_repoqa_data
-from repoqa.metric import compute_function_similarity
-from repoqa.utility import COMMENT_QUERY, FUNCTION_QUERY, progress
+from data import get_repoqa_data
+from metric import compute_function_similarity
+from utility import COMMENT_QUERY, FUNCTION_QUERY, progress
 
 LANGUAGES = list(FUNCTION_QUERY.keys())
 THRESHOLDS = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
