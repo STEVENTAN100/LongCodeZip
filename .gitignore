@@ -161,9 +161,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-crosscodeeval/
-temp/
-*.jsonl
 *.out
 datasets/
 repositories/
@@ -171,8 +168,6 @@ repositories/
 cache/
 output*/
 *.pdf
-*.json
-*.jsonl
 old_scripts/
 *cache*/
 *.zip
