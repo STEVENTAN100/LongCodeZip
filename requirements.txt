@@ -11,6 +11,7 @@ rich
 torch
 transformers
 tqdm
+tree-sitter==0.21.3
 tree-sitter-languages
 tempdir
 wget
